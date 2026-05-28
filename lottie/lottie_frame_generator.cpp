@@ -84,6 +84,11 @@ FrameGenerator::Frame FrameGenerator::renderCurrent(
 		render.width(),
 		render.height(),
 		storage.bytesPerLine());
+	const auto drawX = std::max(-xskip, 0);
+	const auto drawY = std::max(-yskip, 0);
+	const auto drawW = std::min(size.width(), render.width() - drawX);
+	const auto drawH = std::min(size.height(), render.height() - drawY);
+	surface.setDrawRegion(drawX, drawY, drawW, drawH);
 	_rlottie->renderSync(index * _multiplier, std::move(surface));
 	return {
 		.duration = _frameDuration,
